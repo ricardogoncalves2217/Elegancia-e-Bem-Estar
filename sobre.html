@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sobre Nós — Elegância & Bem Estar</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="shell">
+    <!-- Placeholders (assim funciona quer o teu components.js use site-header ou header-placeholder) -->
+    <div id="header-placeholder"></div>
+    <div id="site-header"></div>
+
+    <main>
+      <section class="banner">
+        <div class="container banner__inner">
+          <div>
+            <div class="heroKicker">CONHEÇA O NOSSO ESPAÇO</div>
+            <h1 class="banner__title">Sobre Nós</h1>
+            <p class="banner__desc">Estética e bem‑estar com atendimento personalizado e marcação por horário.</p>
+            <div class="banner__tag">Elegância • Confiança • Profissionalismo</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light">
+        <div class="container">
+          <div class="grid" style="grid-template-columns:1.2fr .8fr;align-items:start">
+            <div class="card">
+              <h3>Missão</h3>
+              <p class="muted">
+                A sua beleza, o nosso cuidado.<br><br>
+                Na Elegância & Bem-Estar, acreditamos que cuidar de si vai muito além da estética. É investir no seu bem-estar,
+                recuperar a confiança, valorizar a sua individualidade e sentir-se bem consigo mesma.<br><br>
+                O nosso espaço nasceu da vontade de proporcionar uma experiência de cuidado personalizada, onde a beleza,
+                a saúde da pele, o bem-estar físico e a autoestima se encontram.
+              </p>
+
+              <h3 style="margin-top:16px">Como trabalhamos</h3>
+              <p class="muted">
+                Cada tratamento é realizado com profissionalismo, dedicação e atenção ao detalhe, num ambiente tranquilo e acolhedor.<br><br>
+                Atendimento exclusivo, mediante marcação prévia, para lhe proporcionar o cuidado e a atenção que merece.
+              </p>
+
+              <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+                <a class="btn" href="marcacoes.html">Marcar</a>
+                <a class="btn outline" href="servicos.html">Ver serviços</a>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Profissional</h3>
+
+              <!-- Foto 110x110 centrada (como pediste) -->
+              <div style="display:flex;justify-content:center;margin:12px 0 14px">
+                <img
+                  src="assets/img/profissional.jpg"
+                  alt="Marta Rendeiro Gonçalves"
+                  style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid #c5a059;box-shadow:0 0 15px rgba(197,160,89,.25);display:block"
+                  onerror="this.style.display='none'"
+                >
+              </div>
+
+              <p class="muted">
+                Sou Marta Rendeiro Gonçalves, fisioterapeuta dermatofuncional, técnica de estética avançada e especialista em Drenagem Linfática Manual.
+                A minha abordagem alia conhecimento técnico, experiência e dedicação, procurando proporcionar tratamentos personalizados, com rigor e
+                atenção às necessidades individuais de cada cliente.
+              </p>
+
+              <p class="muted small" style="margin-top:10px">
+                Imagem usada apenas para apresentação do projeto.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <div id="site-footer"></div>
+  </div>
+
+  <script src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/auth-ui.js"></script>
+</body>
+</html>

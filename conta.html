@@ -1,0 +1,51 @@
+<!doctype html><html lang="pt"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Conta — Elegância & Bem Estar</title><link rel="stylesheet" href="assets/css/styles.css"/></head>
+<body><div class="shell"><div id="site-header"></div>
+<main>
+  <section class="banner"><div class="container banner__inner"><div>
+    <div class="heroKicker">ÁREA DO CLIENTE</div>
+    <h1 class="banner__title">Conta</h1>
+    <p class="banner__desc">Cria conta, inicia sessão e gere as tuas marcações.</p>
+    <div class="banner__tag">Login / Cadastro</div>
+  </div></div></section>
+
+  <section class="section section--light"><div class="container">
+    <div class="grid" style="grid-template-columns:1fr 1fr;align-items:start">
+      <section class="card">
+        <h3>Criar conta</h3>
+        <form id="form-register" style="display:grid;gap:10px;margin-top:10px">
+          <label><div class="muted">Nome</div><input id="reg-name" required></label>
+          <label><div class="muted">Email</div><input id="reg-email" type="email" required></label>
+          <label><div class="muted">Password</div><input id="reg-pass" type="password" minlength="6" required></label>
+          <button class="btn" type="submit">Criar conta</button>
+          <p id="reg-msg" class="muted" style="margin:0"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <h3>Entrar</h3>
+        <form id="form-login" style="display:grid;gap:10px;margin-top:10px">
+          <label><div class="muted">Email</div><input id="log-email" type="email" required></label>
+          <label><div class="muted">Password</div><input id="log-pass" type="password" required></label>
+          <button class="btn" type="submit">Entrar</button>
+          <p id="log-msg" class="muted" style="margin:0"></p>
+        </form>
+
+        <div id="logged-area" style="display:none;margin-top:14px">
+          <p class="muted" style="margin:0">Sessão iniciada como: <strong id="who"></strong></p>
+          <button id="logoutBtn" class="btn outline" type="button" style="margin-top:12px">Sair</button>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:16px">
+      <h3>As minhas marcações</h3>
+      <div id="myBookings" style="display:grid;gap:10px;margin-top:12px"></div>
+    </section>
+  </div></section>
+</main>
+<div id="site-footer"></div></div>
+<script src="assets/js/components.js"></script><script type="module" src="assets/js/auth-ui.js"></script>
+<script type="module" src="assets/js/conta-page.js"></script>
+</body></html>

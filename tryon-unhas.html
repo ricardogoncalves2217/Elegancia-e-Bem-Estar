@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Unhas IA | Elegância & Bem Estar</title>
+
+  <!-- CSS Bootstrap & FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <!-- Scripts MediaPipe (IA para Mãos) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+
+  <style>
+    .nail-frame-wrapper {
+      position: relative;
+      padding: 16px;
+      background: linear-gradient(135deg, #0b1c2d 0%, #162f46 100%);
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(11, 28, 45, 0.25), 0 0 0 2px #c5a059;
+      margin: 10px auto;
+      max-width: 100%;
+      transition: all 0.4s ease;
+    }
+
+    .nail-frame-inner {
+      position: relative;
+      border: 1px solid rgba(197, 160, 89, 0.5);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .frame-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #c5a059 0%, #f3e5b8 50%, #c5a059 100%);
+      color: #0b1c2d;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 18px;
+      border-radius: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 15;
+      white-space: nowrap;
+    }
+
+    .corner-decor {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #c5a059;
+      z-index: 12;
+      pointer-events: none;
+    }
+    .corner-tl { top: 22px; left: 22px; border-right: none; border-bottom: none; }
+    .corner-tr { top: 22px; right: 22px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 22px; left: 22px; border-right: none; border-top: none; }
+    .corner-br { bottom: 22px; right: 22px; border-left: none; border-top: none; }
+
+    .ai-scanner {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(11, 28, 45, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      color: #ffffff;
+    }
+    .ai-scanner.active { opacity: 1; pointer-events: all; }
+
+    .scan-line {
+      width: 70%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #c5a059, #f3e5b8, #c5a059, transparent);
+      box-shadow: 0 0 15px #c5a059, 0 0 8px #f3e5b8;
+      border-radius: 50%;
+      animation: scanMove 1.3s infinite ease-in-out;
+      margin-bottom: 20px;
+    }
+    @keyframes scanMove {
+      0% { transform: translateY(-50px); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(50px); opacity: 0; }
+    }
+
+    .heartbeat { animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  </style>
+</head>
+
+<body class="body-surface panel-layout">
+
+  <!-- PAINEL (igual ao index) -->
+  <div class="page-panel">
+
+    <!-- Header Dinâmico (ATALHOS DENTRO DO PAINEL) -->
+    <div id="site-header"></div>
+
+    <!-- Hero Header -->
+    <header class="hero-page position-relative overflow-hidden py-5"
+      style="background: linear-gradient(90deg, #0b1c2d 0%, #0b1c2de6 45%, #0b1c2d66 100%),
+             url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80')
+             center/cover no-repeat; min-height: 240px;">
+      <div class="container py-3 position-relative z-1">
+        <span class="text-gold text-uppercase fw-bold d-block mb-1" style="letter-spacing: 2px; font-size: 0.85rem;">
+          EXPERIÊNCIA VIRTUAL
+        </span>
+        <h1 class="display-4 font-serif text-white fw-normal mb-2">Simulador de Unhas (IA)</h1>
+        <p class="text-light opacity-90 mb-0 fs-5">
+          Experimente diferentes formatos e cores de verniz gel antes da sua marcação.
+        </p>
+      </div>
+    </header>
+
+    <!-- Conteúdo Principal -->
+    <main class="py-5 panel-main min-vh-50">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+
+          <!-- Coluna Esquerda: Painel de Controlo -->
+          <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 20px;">
+              <h2 class="h4 font-serif text-primary fw-bold mb-3">
+                <i class="fas fa-sliders-h text-gold me-2"></i>Ajustes
+              </h2>
+
+              <div class="mb-3">
+                <label for="image-upload" class="form-label fw-bold small text-dark mb-1">1. Tirar ou Escolher Foto da Mão</label>
+                <input type="file" id="image-upload" class="form-control form-control-sm" accept="image/*">
+              </div>
+
+              <div id="status-msg" class="small mb-3 pb-2 border-bottom">
+                <span class="text-muted"><i class="fas fa-info-circle me-1"></i>A aguardar fotografia...</span>
+              </div>
+
+              <div class="mb-3">
+                <label for="nail-shape" class="form-label fw-bold small text-dark mb-1">2. Formato da Unha (Catálogo)</label>
+                <select id="nail-shape" class="form-select form-select-sm rounded-3">
+                  <option value="almond" selected>Oval / Amendoada</option>
+                  <option value="quadrada">Quadrada (Clássica)</option>
+                  <option value="arredondada">Arredondada</option>
+                  <option value="stiletto">Stiletto (Ponta Fina)</option>
+                  <option value="bailarina">Bailarina / Coffin</option>
+                  <option value="edge">Edge (Bico Triangular)</option>
+                </select>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-5">
+                  <label for="color-picker" class="form-label fw-bold small text-dark mb-1">Cor (Verniz)</label>
+                  <input type="color" id="color-picker" class="form-control form-control-color w-100" value="#c5a059">
+                </div>
+                <div class="col-7">
+                  <label for="opacity-slider" class="form-label fw-bold small text-dark mb-1">Opacidade / Brilho</label>
+                  <input type="range" id="opacity-slider" class="form-range mt-1" min="0.3" max="1" step="0.05" value="0.85">
+                </div>
+              </div>
+
+              <hr class="text-muted my-3">
+
+              <h6 class="fw-bold small text-primary mb-2"><i class="fas fa-tools text-gold me-1"></i>Ajuste Fino Manual</h6>
+
+              <div class="mb-2">
+                <label for="cuticle-offset" class="form-label extra-small text-muted mb-0 d-flex justify-content-between">
+                  <span>Posição na Cutícula</span> <span>Subir/Descer</span>
+                </label>
+                <input type="range" id="cuticle-offset" class="form-range" min="-50" max="50" step="1" value="0">
+              </div>
+
+              <div class="row g-2 mb-4">
+                <div class="col-6">
+                  <label for="nail-width" class="form-label extra-small text-muted mb-0">Largura</label>
+                  <input type="range" id="nail-width" class="form-range" min="0.5" max="2.0" step="0.05" value="1.0">
+                </div>
+                <div class="col-6">
+                  <label for="nail-length" class="form-label extra-small text-muted mb-0">Comprimento</label>
+                  <input type="range" id="nail-length" class="form-range" min="0.5" max="3.0" step="0.1" value="1.0">
+                </div>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button id="recalculate-btn" class="btn btn-gold text-dark fw-bold rounded-pill shadow-sm">
+                  <i class="fas fa-magic me-2"></i>Recalcular IA
+                </button>
+                <div class="d-flex gap-2">
+                  <button id="clear-btn" class="btn btn-outline-secondary w-50 rounded-pill small">Limpar</button>
+                  <button id="save-btn" class="btn btn-outline-primary w-50 rounded-pill small">
+                    <i class="fas fa-download me-1"></i>Guardar
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Coluna Direita: Foto com Moldura -->
+          <div class="col-lg-8">
+            <div id="canvas-container" class="nail-frame-wrapper">
+              <div class="frame-badge">
+                <i class="fas fa-gem me-1"></i> Elegância &amp; Bem Estar • Simulação IA
+              </div>
+
+              <div class="corner-decor corner-tl"></div>
+              <div class="corner-decor corner-tr"></div>
+              <div class="corner-decor corner-bl"></div>
+              <div class="corner-decor corner-br"></div>
+
+              <div class="nail-frame-inner">
+                <div id="ai-scanner" class="ai-scanner">
+                  <div class="scan-line"></div>
+                  <i class="fas fa-fingerprint text-gold display-3 mb-3 heartbeat"></i>
+                  <h5 class="font-serif fw-bold text-white">A Mapear Geometria da Mão...</h5>
+                  <span class="small text-light opacity-75">A alinhar cutículas e unhas virtuais</span>
+                </div>
+
+                <canvas id="tryon-canvas" class="w-100 h-100" style="object-fit: contain; max-height: 70vh; display: block;"></canvas>
+
+                <div id="canvas-placeholder" class="position-absolute text-center p-4" style="pointer-events: none;">
+                  <i class="fas fa-hand-sparkles text-gold display-1 mb-3 opacity-50"></i>
+                  <h3 class="h5 font-serif text-muted">A sua simulação aparecerá aqui</h3>
+                  <p class="small text-muted">Faça upload de uma foto da sua mão esticada.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+  </div><!-- /page-panel -->
+
+  <script>
+    document.getElementById('image-upload').addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        document.getElementById('canvas-placeholder').style.display = 'none';
+      }
+    });
+  </script>
+
+  <!-- Footer Dinâmico -->
+  <div id="site-footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/auth-ui.js"></script>
+  <script src="assets/js/tryon-unhas.js"></script>
+
+</body>
+</html>

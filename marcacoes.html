@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Marcações — Elegância & Bem Estar</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <div id="site-header"></div>
+
+    <main>
+      <section class="banner">
+        <div class="container banner__inner">
+          <div>
+            <div class="heroKicker">MARCAÇÕES ONLINE</div>
+            <h1 class="banner__title">Marcações</h1>
+            <p class="banner__desc">Escolhe serviço, dia e horário. O horário fica bloqueado quando confirmado.</p>
+            <div class="banner__tag">Ter–Sex 10:00–13:00 e 15:00–18:00 • Sáb 09:00–13:00 • Dom/Seg fechado</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light">
+        <div class="container">
+          <div class="grid" style="grid-template-columns:1.2fr .8fr; align-items:start">
+            <section class="card">
+              <h3>Nova marcação</h3>
+
+              <p id="loginWarn" class="muted" style="display:none; margin-top:10px">
+                Precisas de <a href="conta.html" style="text-decoration:underline">iniciar sessão</a> para confirmar a marcação.
+              </p>
+
+              <form id="booking-form" style="display:grid; gap:12px; margin-top:10px">
+                <label>
+                  <div class="muted">Serviço</div>
+                  <select id="service" required></select>
+                </label>
+
+                <label>
+                  <div class="muted">Dia</div>
+                  <input id="date" type="date" required />
+                  <small id="date-hint" class="muted"></small>
+                </label>
+
+                <label>
+                  <div class="muted">Horário</div>
+                  <select id="timeSelect" required>
+                    <option value="">Escolhe primeiro um dia</option>
+                  </select>
+                  <small id="slot-hint" class="muted"></small>
+                </label>
+
+                <div style="display:grid; gap:10px; grid-template-columns:1fr 1fr">
+                  <label>
+                    <div class="muted">Nome</div>
+                    <input id="name" required />
+                  </label>
+
+                  <label>
+                    <div class="muted">Contacto</div>
+                    <input id="contact" required placeholder="Telemóvel ou email" />
+                  </label>
+                </div>
+
+                <label>
+                  <div class="muted">Observações</div>
+                  <textarea id="notes" rows="3"></textarea>
+                </label>
+
+                <button id="submitBtn" class="btn" type="submit">Confirmar marcação</button>
+                <p id="msg" class="muted" style="margin:0"></p>
+              </form>
+            </section>
+
+            <aside class="card">
+              <h3>Estado do dia</h3>
+              <p class="muted small" style="margin-top:6px">Mostra horários ocupados.</p>
+              <div id="dayBookings" style="display:grid; gap:10px; margin-top:12px"></div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+  </div>
+
+  <script src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/auth-ui.js"></script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init("BUFzqW6euVIIWEeHp");
+  </script>
+
+  <script type="module" src="assets/js/marcacoes-page.js"></script>
+</body>
+</html>

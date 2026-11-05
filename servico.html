@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Serviço — Elegância & Bem Estar</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <div id="site-header"></div>
+
+    <main>
+      <section class="banner">
+        <div class="container banner__inner">
+          <div>
+            <div class="heroKicker">DETALHES</div>
+            <h1 class="banner__title" id="svcTitle">Serviço</h1>
+            <p class="banner__desc" id="svcIntro"></p>
+            <div class="banner__tag" id="svcMeta"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light">
+        <div class="container">
+          <div class="grid" style="grid-template-columns:1fr 1fr;align-items:start">
+            <div class="card">
+              <h3>Descrição</h3>
+              <p class="muted" id="svcDesc" style="margin-top:10px"></p>
+            </div>
+
+            <div class="card">
+              <h3>Marcação</h3>
+              <p class="muted">Escolha um dia e um horário disponível para este serviço.</p>
+
+              <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+                <a class="btn" id="svcBook" href="marcacoes.html">Marcar</a>
+                <a class="btn outline" href="servicos.html">Voltar</a>
+              </div>
+
+              <div id="svcTryonWrap" style="display:none;margin-top:14px">
+                <p class="muted">Para manicure/pedicure podes simular a cor:</p>
+                <a class="btn outline" href="tryon-unhas.html">Abrir simulador</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+  </div>
+
+  <script src="assets/js/components.js"></script>
+  <script type="module" src="assets/js/auth-ui.js"></script>
+  <script type="module" src="assets/js/servico-page.js"></script>
+</body>
+</html>
